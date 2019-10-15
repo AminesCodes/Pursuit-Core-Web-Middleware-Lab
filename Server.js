@@ -57,6 +57,20 @@ const log = (request, response, next) => {
     next()
 }
 
+const checkValidRange = (request, response, next) => {
+    let min = Math.floor(request.query.floor);
+    let max = Math.floor(request.query.ceil);
+
+    if (max < min) {
+        response.json({
+            status: "failed", 
+            message: "Input error"
+        })
+    } else {
+        next();
+    }
+}
+
 const getRandomNumber = (request, response, next) => {
     let min = Math.floor(request.query.floor);
     let max = Math.floor(request.query.ceil);
@@ -123,13 +137,9 @@ const removeName = (request, response, next) => {
 
 
 app.get('/animal', log, checkValidInput, isAnimal)
-
-app.get('/random', log, checkValidInput, getRandomNumber)
-
+app.get('/random', log, checkValidInput, checkValidRange, getRandomNumber)
 app.get('/queue/peek', log, checkIfEmptyQueue, returnNextName)
-
 app.post('/queue/enqueue', log, checkValidInput, CheckIfAlreadyThere, addToTheQueue)
-
 app.get('/queue/dequeue', log, checkIfEmptyQueue, removeName)
 
 

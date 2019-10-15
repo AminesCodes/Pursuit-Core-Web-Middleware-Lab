@@ -109,7 +109,7 @@ const displayRandomNumber = (container, data) => {
     if (data.status === "success") {
         container.innerText = data.randPick;
     } else if (data.status === "failed") {
-        container.innerText = `Please entre valid numbers`
+        container.innerText = `Please entre valid numbers / range`
     } else {
         container.innerText = `Something went wrong with your request, please double check your input(s) and try again or try again later`
     }
