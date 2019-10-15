@@ -18,6 +18,8 @@ let animals = {
     eagle: {name: "Eagle", number: 2, section: 'D1'},
 }
 
+let labQueue = ['xavier', 'michelle', 'corey', 'reed']
+
 
 const checkValidInput = (request, response, next) => {
     let query = request.query;
@@ -31,12 +33,11 @@ const checkValidInput = (request, response, next) => {
                 status: "failed", 
                 message: "Input error"
             })
-    }
+        }
 }
 
 const isAnimal = (request, response, next) => {
     let requestedAnimal = ((request.query.animal).trim()).toLowerCase();
-    console.log(requestedAnimal, "\n")
     if (animals[requestedAnimal]) {
         response.json({
             status: 'success',
@@ -70,11 +71,66 @@ const getRandomNumber = (request, response, next) => {
     })
 }
 
+const checkIfEmptyQueue = (request, response, next) => {
+    if (labQueue.length) {
+        next()
+    } else {
+        response.json({
+            status: 'failed',
+            message: 'Empty Queue'
+        })
+    }
+}
+
+const returnNextName = (request, response, next) => {
+    let name = labQueue[0][0].toUpperCase()+labQueue[0].slice(1, labQueue[0].length);
+    response.json({
+        status: "success",
+        data: name
+    })
+}
+
+const CheckIfAlreadyThere = (request, response, next) => {
+    let name = ((request.query.name).trim()).toLowerCase();
+    if (labQueue.includes(name)) {
+        response.json({
+            status: "failed",
+            message: "Name exists"
+        })
+    } else {
+        next()
+    }
+}
+
+const addToTheQueue = (request, response, next) => {
+    let name = ((request.query.name).trim()).toLowerCase();
+    labQueue.push(name);
+    response.json({
+        status: "success",
+        enqueued: name
+    })
+    console.log(labQueue)
+}
+
+const removeName = (request, response, next) => {
+    let name = labQueue.shift();
+    response.json({
+        status: "success",
+        dequeued: name
+    })
+    console.log(labQueue)
+}
+
 
 app.get('/animal', log, checkValidInput, isAnimal)
 
 app.get('/random', log, checkValidInput, getRandomNumber)
 
+app.get('/queue/peek', log, checkIfEmptyQueue, returnNextName)
+
+app.post('/queue/enqueue', log, checkValidInput, CheckIfAlreadyThere, addToTheQueue)
+
+app.get('/queue/dequeue', log, checkIfEmptyQueue, removeName)
 
 
 app.listen(port, () => {

@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let name = nameInput.value;
 
         try {
-            let response = await axios.get(`${baseUrl}queue/enqueue?name=${name}`);
+            let response = await axios.post(`${baseUrl}queue/enqueue?name=${name}`);
             displayQueueManagement(queueResponse, response.data);
         } catch (err) {
             queueResponse.innerText = `Network Error:\n${err}`;
@@ -117,22 +117,28 @@ const displayRandomNumber = (container, data) => {
 
 const displayQueueManagement = (container, data) => {
     container.innerText = '';
-    
+
     if (data.status === "success") {
         if (data.data) {
             let name = data.data[0].toUpperCase() + data.data.slice(1, data.data.length)
             container.innerText = `The next person on the list is ${name}`
-        } else if (data.enqueue) {
-            let name = data.enqueue[0].toUpperCase() + data.enqueue.slice(1, data.enqueue.length)
+        } else if (data.enqueued) {
+            let name = data.enqueued[0].toUpperCase() + data.enqueued.slice(1, data.enqueued.length)
             container.innerText = `${name} has been successfully added to the list`
-        } else if (data.dequeue) {
-            let name = data.dequeue[0].toUpperCase() + data.dequeue.slice(1, data.dequeue.length)
+        } else if (data.dequeued) {
+            let name = data.dequeued[0].toUpperCase() + data.dequeued.slice(1, data.dequeued.length)
             container.innerText = `${name} has been successfully removed from the list`
         } else {
             container.innerText = 'Sorry, Something went wrong'
         }
     } else if (data.status === "failed") {
-        container.innerText = `Please entre a name`
+        if (data.message === "Input error") {
+            container.innerText = `Please entre a name`
+        } else if (data.message === "Empty Queue") {
+            container.innerText = `The list is empty`
+        } else if (data.message === "Name exists") {
+            container.innerText = `Name already exists in the list`
+        }
     } else {
         container.innerText = `Something went wrong with your request, please double check your input and try again or try again later`
     }
