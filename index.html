@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="index.js"></script>
+    <link rel="stylesheet" href="index.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <h2>Valid animal tester</h2> 
+    <form id="animalForm">
+        <label for="animalInput">Enter a name of an animal</label>
+        <input id="animalInput" type="text">
+        <button id="searchAnimal">Check Animal</button>
+    </form>
+    <p id="animalResponse"></p>
+    <hr>
+    
+    <h2>Random integer number picker</h2>
+    <form id="randomNumberForm">
+        <label for="minNumber">Minimum value</label>
+        <input id="minNumber" type="number">
+        <label for="maxNumber">maximum value</label>
+        <input id="maxNumber" type="number">
+        <button id="requestRandomNumber">Random Number</button>
+    </form> 
+    <p id="randomNumberResponse"></p>
+    <hr>
+
+    <h2>Queue manager</h2>
+    <!-- <form id="queueForm"> -->
+        <label for="nameInput">Enter a Name</label>
+        <input id="nameInput" type="text">
+        <button id="peekBtn">Check who's next</button>
+        <button id="enqueueBtn">Add to the queue</button>
+        <button id="dequeueBtn">Remove</button>
+    <!-- </form> -->
+    <p id="queueResponse"></p>
+</body>
+</html>
