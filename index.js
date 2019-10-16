@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     dequeueBtn.addEventListener("click", async () => {
         try {
-            let response = await axios.get(`${baseUrl}queue/dequeue`);
+            let response = await axios.post(`${baseUrl}queue/dequeue`);
             displayQueueManagement(queueResponse, response.data);
         } catch (err) {
             queueResponse.innerText = `Network Error:\n${err}`;

@@ -140,7 +140,7 @@ app.get('/animal', log, checkValidInput, isAnimal)
 app.get('/random', log, checkValidInput, checkValidRange, getRandomNumber)
 app.get('/queue/peek', log, checkIfEmptyQueue, returnNextName)
 app.post('/queue/enqueue', log, checkValidInput, CheckIfAlreadyThere, addToTheQueue)
-app.get('/queue/dequeue', log, checkIfEmptyQueue, removeName)
+app.post('/queue/dequeue', log, checkIfEmptyQueue, removeName)
 
 
 app.listen(port, () => {
